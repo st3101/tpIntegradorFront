@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador 334</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>TP Integrador 334</h1>
+        <nav>
+            <ul id="listado-nav">
+                <li class="links-header"><a href="index.html"><span>GET</span></a></li>
+                <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
+                <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
+                <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
+                <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <h2>Listado de productos</h2>
+    <hr>
+    <main id="contenedor-get">
+        <div id="productos-container">
+            <form id="getProductos-get"></form>
+            <ul id="productos-lista">
+            </ul>
+        </div>
+
+    </main>
+
+    <script>
+        
+        async function obtenerDatosProductos() {
+            try{
+                console.log('Obteniendo datos de productos...');
+                let respuesta = await fetch('http://localhost:3000/productos');
+                let datos = await respuesta.json();
+                // console.log(datos);
+                console.table(datos.payload);
+                mostarDatosProductos(datos);
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        }
+
+        function mostarDatosProductos(array){
+            //Guardamos los productos guardados en payload
+            let listaProductos = array.payload;
+            //traemos el elemento ul de la lista 
+            let productos_lista = document.getElementById("productos-lista");
+            let htmlProducto ="";
+            listaProductos.forEach(producto => {
+                htmlProducto += `
+                <li class="li-listado productos-listados">
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
+                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio} <strong></p>
+                </li>`
+            });
+            productos_lista.innerHTML = htmlProducto;
+        }
+        obtenerDatosProductos();
+        
+    </script>
+
+    <!-- <script src="./js/scripts.js"></script> -->
+</body>
+
+</html>

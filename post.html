@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador 334</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>TP Integrador 334</h1>
+        <nav>
+            <ul id="listado-nav">
+                <li class="links-header"><a href="index.html"><span>GET</span></a></li>
+                <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
+                <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
+                <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
+                <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <h2>Alta Producto</h2>
+    <hr>
+    <main id="contenedor-post"> 
+        <div id="altaProducto-container" class="crudFrom-container">
+            
+            <form id="altaProducto-form" autocomplete="off">
+                <!-- Nombre -->
+                <label for="text">Nombre</label>
+                <input type="text" name="nombre" id="nombre" required> 
+
+                <!-- Categoria -->
+                <label for="text">Categoria</label>
+                <select name="categoria" id="categoria">
+                    <option value="Aventura">Aventura</option>
+                    <option value="Accion">Acción</option>
+                </select>
+
+                <!-- Precio -->
+                <label for="text">Precio</label>
+                <input type="number" name="precio" id="precio" required>
+
+                <!-- Cantidad -->
+                <label for="text">Cantidad</label>
+                <input type="number" name="cantidad" id="cantidad" required>
+
+                <!-- Imagen -->
+                <label for="text">Imagen</label>
+                <input type="text" name="imagen" id="imagen" required>
+
+                <!-- Enviar -->
+                <input type="submit" value="Crear Producto">
+            </form>
+        </div>
+    </main>
+
+    <script>
+        let altaProductoForm = document.getElementById("altaProducto-form");
+
+        altaProductoForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            //Obetenemos los datos del formulario 
+            let formData = new FormData(event.target);
+
+            //Convertimos los datos del formulario a un objeto de js
+            let data = Object.fromEntries(formData.entries());
+
+            //validamos que los datos del formulario existan
+            if(!data.nombre ||!data.categoria || !data.precio || !data.cantidad || !data.imagen) {
+                // Si alguno de los campos del formulario no existe, mandamos un error
+                alert("Todos los datos son obligatorios");
+                return;
+            }
+            console.log(data);
+
+            try {
+                //Enviamos los datos del formulario a la API
+                let respuesta = await fetch('http://localhost:3000/productos', {
+                    method: 'POST',
+                    headers: {
+                        //indicamos el tipo de contenido que estamos enviando
+                        'Content-Type': 'application/json'
+                    },
+                    //convierte la data de un objeto js a string JSON
+                    body: JSON.stringify(data)
+                });
+
+                //Si esta todo ok, mostramos un mensaje de exito
+                if(respuesta.ok) {
+                    console.log(respuesta);
+                    
+                    let resultado = await respuesta.json();
+
+                     //Si todo sale bien, mostramos un mensaje de exito
+                    alert('Producto creado exitosamente!');
+                    //Reseteamos el formulario
+                    altaProductoForm.reset(); 
+                    
+                }else{
+                    let error = await respuesta.json();
+                    console.error('Error al crear el producto:', error.mensaje);
+                }
+                
+            } catch (error) {
+                console.error('Error al enviar los datos:', error);
+                alert('Error al enviar los datos. Por favor, intente nuevamente.');
+                }
+        })
+
+    </script>
+
+    <!-- <script src="./js/scripts.js"></script> -->
+</body>
+
+</html>

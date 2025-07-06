@@ -1,0 +1,39 @@
+/*Estilos globales*/
+h1,h2 {
+    text-align: center;
+}
+
+
+nav{
+    justify-content: center;
+}
+
+/* Header */
+#listado-nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+#listado-nav li {
+    list-style-type: none;
+}
+
+
+/*  Indice */
+.li-listado {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    padding-right: 10px;
+    border-radius: 3px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.productos-listados {
+    justify-content: space-between;
+}
+
+.img-listados {
+    width: 65px;
+}
