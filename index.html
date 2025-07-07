@@ -5,41 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TP Integrador 334</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" href="./src/memoricard.ico" type="image/x-icon">
+</head>
+<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
+<link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
-    <header>
-        <h1>TP Integrador 334</h1>
-        <nav>
-            <ul id="listado-nav">
-                <li class="links-header"><a href="index.html"><span>GET</span></a></li>
-                <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
-                <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
-                <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
-                <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
-            </ul>
-        </nav>
-    </header>
-    <hr>
-    <h2>Listado de productos</h2>
-    <hr>
-    <main id="contenedor-get">
-        <div id="productos-container">
-            <form id="getProductos-get"></form>
-            <ul id="productos-lista">
-            </ul>
+    <header class="paddingBottonOff">
+        <div class="centrar">
+            <div class="flex" >
+                <div id="logo-container" class="paddingOff">
+                    <img id="img-logo" src="./src/memoricard.ico" alt="Logo">
+                </div>
+                <div>
+                    <h1>Classic Games</h1>
+                </div>
+            </div>
         </div>
-
+        <div class="centrar">
+            <nav>
+                <ul id="listado-nav">
+                    <li class="links-header"><a href="index.html"><span>GET</span></a></li>
+                    <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
+                    <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
+                    <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
+                    <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <hr>
+        <h2 class="centrar">Listado de productos</h2>
+        <hr>
+    </header>
+    <main class="main">
+            <ul id="productos-lista"></ul>
     </main>
 
     <script>
-        
+        const url = 'http://localhost:3000/api';
+
         async function obtenerDatosProductos() {
-            try{
+            try {
                 console.log('Obteniendo datos de productos...');
-                let respuesta = await fetch('http://localhost:3000/productos');
+                let respuesta = await fetch(`${url}/productos`);
                 let datos = await respuesta.json();
                 // console.log(datos);
                 console.table(datos.payload);
@@ -49,26 +58,26 @@
             }
         }
 
-        function mostarDatosProductos(array){
+        function mostarDatosProductos(array) {
             //Guardamos los productos guardados en payload
             let listaProductos = array.payload;
             //traemos el elemento ul de la lista 
             let productos_lista = document.getElementById("productos-lista");
-            let htmlProducto ="";
+            let htmlProducto = "";
             listaProductos.forEach(producto => {
                 htmlProducto += `
-                <li class="li-listado productos-listados">
+                <li class="producto-item">
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
-                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio} <strong></p>
-                </li>`
+                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / Categoria ${producto.categoria} <br> <strong>Precio: ${producto.precio} </strong></p>
+                </li>
+                <hr>`
+
             });
             productos_lista.innerHTML = htmlProducto;
         }
         obtenerDatosProductos();
-        
-    </script>
 
-    <!-- <script src="./js/scripts.js"></script> -->
+    </script>
 </body>
 
 </html>

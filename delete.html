@@ -10,20 +10,31 @@
 </head>
 
 <body>
-    <header>
-        <h1>TP Integrador 334</h1>
-        <nav>
-            <ul id="listado-nav">
-                <li class="links-header"><a href="index.html"><span>GET</span></a></li>
-                <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
-                <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
-                <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
-                <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
-            </ul>
-        </nav>
+        <header class="paddingBottonOff">
+        <div class="centrar">
+            <div class="flex">
+                <div id="logo-container" class="paddingOff">
+                    <img id="img-logo" src="./src/memoricard.ico" alt="Logo">
+                </div>
+                <div>
+                    <h1>Classic Games</h1>
+                </div>
+            </div>
+        </div>
+        <div class="centrar">
+            <nav>
+                <ul id="listado-nav">
+                    <li class="links-header"><a href="index.html"><span>GET</span></a></li>
+                    <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
+                    <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
+                    <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
+                    <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <hr>
-    <h2>Eliminar Producto</h2>
+    <h2 class="centrar">Eliminar Producto</h2>
     <hr>
     <main id="contenedor-get">
         <div id="productos-container" class="crudFrom-container">
@@ -31,7 +42,7 @@
             <form id="getProduct-form">
                 <label for="idProd">ID Producto</label>
                 <input type="number" name="idProd" id="idProd" required>
-                <input type="submit" value="consultar producto">
+                <input type="submit" value="Consultar producto">
             </form>
         </div>
 
@@ -39,13 +50,19 @@
             <ul id="getId-list">
             </ul>
         </div>
-
     </main>
+
+    <div id="getId-container">
+        <ul id="getId-list"></ul>
+    </div>
+
+    <div id="actualizarProducto-container" class="crudFrom-container"></div>
 
     <script>
         let getProductForm = document.getElementById("getProduct-form");
         let getId_lista = document.getElementById("getId-list");
         let botonEliminarProducto = "";
+        const url = 'http://localhost:3000/api';
 
         getProductForm.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -67,7 +84,7 @@
                 }
 
                 //Traemos el producto desde la API usando el id del producto
-                let respuesta = await fetch(`http://localhost:3000/productos/${idProd}`);
+                let respuesta = await fetch(`${url}/productos/${idProd}`);
 
                 //Tranformamos el texto a formato JSON
                 let datos = await respuesta.json();
@@ -88,9 +105,9 @@
                 let producto = datos.payload[0];
 
                 let htmlProducto = `
-                <li id="producto-encontrado" class="li-listado productos-listados">
+                <li class="producto-item">
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
-                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio} <strong></p>
+                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / Categoria ${producto.categoria}  <br> <strong> Precio: ${producto.precio} </strong></p>
                     <button id="btn-eliminar" class="btn-actualizar">Eliminar</button>
                 </li>`
 
@@ -109,7 +126,7 @@
         async function eliminarProducto(event, producto) {
             event.preventDefault();
 
-            let confirmacion = confirm("Quieres eliminar el producto");
+            let confirmacion = confirm("¿Quieres eliminar el producto?");
 
             if (!confirmacion) {
                 alert("Confrimacion Cancelada");
@@ -118,7 +135,7 @@
             let id = producto.id;
             try {
                 //Enviamos los datos del formulario a la API
-                let respuesta = await fetch(`http://localhost:3000/productos/${id}`, {
+                let respuesta = await fetch(`${url}/productos/${id}`, {
                     method:"DELETE"
                 });
 

@@ -7,27 +7,38 @@
     <title>TP Integrador 334</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
     <link rel="stylesheet" href="./css/styles.css">
-</head>
+    <link rel="icon" href="./src/memoricard.ico" type="image/x-icon"></head>
 
-<body>
-    <header>
-        <h1>TP Integrador 334</h1>
-        <nav>
-            <ul id="listado-nav">
-                <li class="links-header"><a href="index.html"><span>GET</span></a></li>
-                <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
-                <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
-                <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
-                <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
-            </ul>
-        </nav>
-    </header>
-    <hr>
-    <h2>Alta Producto</h2>
-    <hr>
-    <main id="contenedor-post"> 
+    <body>
+        <header class="paddingBottonOff">
+            <div class="centrar">
+                <div class="flex">
+                    <div id="logo-container" class="paddingOff">
+                        <img id="img-logo" src="./src/memoricard.ico" alt="Logo">
+                    </div>
+                    <div>
+                        <h1>Classic Games</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="centrar">
+                <nav>
+                    <ul id="listado-nav">
+                        <li class="links-header"><a href="index.html"><span>GET</span></a></li>
+                        <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
+                        <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
+                        <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
+                        <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <hr>
+            <h2 class="centrar">Alta Producto</h2>
+            <hr>
+        </header>
+ 
+    <main id="contenedor-post" class="main"> 
         <div id="altaProducto-container" class="crudFrom-container">
-            
             <form id="altaProducto-form" autocomplete="off">
                 <!-- Nombre -->
                 <label for="text">Nombre</label>
@@ -59,6 +70,7 @@
     </main>
 
     <script>
+        const url = 'http://localhost:3000/api';
         let altaProductoForm = document.getElementById("altaProducto-form");
 
         altaProductoForm.addEventListener("submit", async (event) => {
@@ -80,7 +92,7 @@
 
             try {
                 //Enviamos los datos del formulario a la API
-                let respuesta = await fetch('http://localhost:3000/productos', {
+                let respuesta = await fetch(`${url}/productos`, {
                     method: 'POST',
                     headers: {
                         //indicamos el tipo de contenido que estamos enviando

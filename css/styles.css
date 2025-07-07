@@ -1,39 +1,84 @@
-/*Estilos globales*/
-h1,h2 {
-    text-align: center;
+p{
+    padding: 1%;
 }
 
+/* GENEALES */
+.centrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-nav{
+.flex {
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-/* Header */
-#listado-nav {
-    display: flex;
-    justify-content: space-around;
+.paddingOff {
+    padding: 0px;
 }
 
-#listado-nav li {
-    list-style-type: none;
+.paddingBottonOff{
+    padding-bottom: 0px;
 }
 
+/* LOGO */
+#logo-container {
+    flex: 0 0 auto;
+    margin-left: 10px;
+}
+#img-logo {
+    width: 90px;
+    height: 90px;
+}
 
-/*  Indice */
-.li-listado {
+/* PRODUCTOS */
+#productos-lista {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    align-items: left;
+}
+
+.producto-item {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
     justify-content: center;
-    font-size: 16px;
-    padding-right: 10px;
-    border-radius: 3px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
+    padding: 1%;
 
-.productos-listados {
-    justify-content: space-between;
 }
 
 .img-listados {
-    width: 65px;
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    margin-right: 18px;
+    border-radius: 8px;
 }
+.info-producto {
+    font-size: 16px;
+    color: #fff; /* Ajusta según tu tema */
+}
+
+
+.main{
+    display: flex; 
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.crudFrom-container{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
