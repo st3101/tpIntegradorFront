@@ -1,4 +1,5 @@
-/* Santiago Leonardi */
+/* Santiago Leonardi
+David Lago */
 body{
     background-color: #000000; 
     color: white; 
@@ -55,5 +56,9 @@ a{
     text-decoration: none; /* quita el subrayado */
     color: inherit; /* usa el color del contenedor padre */
     font: 30px sans-serif;
+}
+
+.hidden {
+    display: none;
 }
 

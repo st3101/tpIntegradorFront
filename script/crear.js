@@ -1,3 +1,5 @@
+/* Santiago Leonardi
+David Lago */
 
 const url = 'http://localhost:3000/api';
 let altaProductoForm = document.getElementById("altaProducto-form");

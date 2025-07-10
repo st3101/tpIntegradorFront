@@ -1,3 +1,5 @@
+/* Santiago Leonardi
+David Lago */
 
     const url = 'http://localhost:3000/api';
     let getProductForm = document.getElementById("getProduct-form");
@@ -55,6 +57,7 @@
                 <button id="btn-actualizar" class="btn-actualizar">Actualizar</button>
             </div>`
 
+            document.getElementById("getId-container").classList.remove("hidden");
             getId_lista.innerHTML = htmlProducto;
             getProductForm.reset();
 
@@ -74,6 +77,7 @@
 
     function formularioProducto(event, producto) {
         event.stopPropagation();
+        getAltaProductoForm.classList.remove("hidden");
         getAltaProductoForm.innerHTML = `
                 <h2>Producto</h2>
                 <form id="altaProducto-form" autocomplete="off">
@@ -152,6 +156,7 @@
 
                 //Vaciamos el formulario si todo funciono 
                 getId_lista.innerHTML = "";
+                getId_lista.classList.add("hidden");
                 getAltaProductoForm.innerHTML = "";
             }
         } catch (error) {

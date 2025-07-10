@@ -1,7 +1,10 @@
+/* Santiago Leonardi
+David Lago */
 
 const url = 'http://localhost:3000/api';
 
 let getProductForm = document.getElementById("getProduct-form");
+let contenedor = document.getElementById("getId-container");
 let getId_lista = document.getElementById("getId-list");
 
 //Simula una espera de 1 segundo para mostrar el mensaje de "Cargando producto..."
@@ -12,6 +15,7 @@ getProductForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     try {
+        contenedor.classList.remove('hidden');
         getId_lista.innerHTML = "Cargando producto...";
         await esperar(1000); // Espera 1 segundo
         //Creamos un objeto FormData para obtener los datos del formulario de event.target
@@ -37,8 +41,11 @@ getProductForm.addEventListener("submit", async (event) => {
 
         //Validacion 2
         if (!respuesta.ok) {
-            // Si la respuesta no es OK, mandamos un error
-            throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
+            if (respuesta.status === 404) {
+                throw new Error("No se encontró ningún producto con ese ID");
+            } else {
+                throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
+            }
         }
 
         //Validacion 3
@@ -57,10 +64,14 @@ getProductForm.addEventListener("submit", async (event) => {
             <p>Precio: $${producto.precio}</p>
         </div>`
 
+        document.getElementById('getId-container').classList.remove('hidden');
+
         getId_lista.innerHTML = htmlProducto;
     } catch (error) {
         console.error(error);
-        //Mendaje de error en caso de que algo falle en el html
+
+        document.getElementById('getId-container').classList.remove('hidden');
+        //Mensaje de error en caso de que algo falle en el html
         getId_lista.innerHTML = `<p class="error">${error.message}</p>`;
     }
 });

@@ -1,3 +1,5 @@
+/* Santiago Leonardi
+David Lago */
 let getProductForm = document.getElementById("getProduct-form");
 let getId_lista = document.getElementById("getId-list");
 let botonEliminarProducto = "";
@@ -30,8 +32,11 @@ getProductForm.addEventListener("submit", async (event) => {
 
         //Validacion 2
         if (!respuesta.ok) {
-            // Si la respuesta no es OK, mandamos un error
-            throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
+            if (respuesta.status === 404) {
+                throw new Error("No se encontró ningún producto con ese ID");
+            } else {
+                throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
+            }
         }
 
         //Validacion 3
@@ -52,7 +57,9 @@ getProductForm.addEventListener("submit", async (event) => {
         </div>`
 
 
+        document.getElementById("getId-container").classList.remove("hidden");
         getId_lista.innerHTML = htmlProducto;
+
         botonEliminarProducto = document.getElementById("btn-eliminar");
 
         botonEliminarProducto.addEventListener("click", async (event) => {
@@ -85,6 +92,7 @@ async function eliminarProducto(event, producto) {
         if (respuesta.ok) {
             alert(resultado.message)
             getId_lista.innerHTML = "";
+            getId_lista.classList.add("hidden");
             return true;
 
         } else {

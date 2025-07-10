@@ -1,4 +1,5 @@
-// Santiago Leonardi
+/* Santiago Leonardi
+David Lago */
 async function obtenerDatosProductos() {
     try {
         console.log('Obteniendo datos de productos...');
@@ -44,7 +45,7 @@ function mostrarProductos(array) {
     let listaProductos = array;
     console.log(listaProductos);
     //traemos el elemento ul de la lista 
-    let productos_lista = document.getElementById("contedor-productos");
+    let productos_lista = document.getElementById("contenedor-productos");
     let htmlProducto = "";
     listaProductos.forEach(producto => {
         htmlProducto += `
@@ -61,7 +62,6 @@ function mostrarProductos(array) {
 }
 
 function mostrarCarrito() {
-
     let htmlCarrito = "";
     for (let i = 0; i < arrayCarrito.length; i++) {
         let producto = arrayCarrito[i];
@@ -70,21 +70,32 @@ function mostrarCarrito() {
             <img src="${producto.imagen}" class="img-listados">
             <p>ID: ${producto.id}</p>
             <p>Precio: $${producto.precio}</p>
+            <p>Cantidad: x${producto.cantidadCarrito}</p>
+            <button class="btn-eliminar" data-id="${producto.id}">Eliminar</button>
         </div>`;
     }
 
-    document.getElementById("contedor-carrito").innerHTML = htmlCarrito;
+    document.getElementById("contenedor-carrito").innerHTML = htmlCarrito;
+
+    // Agregar eventos a botones eliminar
+    let botonesEliminar = document.querySelectorAll(".btn-eliminar");
+    botonesEliminar.forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            let id = parseInt(e.target.getAttribute("data-id"));
+            eliminarDelCarrito(id);
+        });
+    });
 }
 
 function mostrarPrecioTotal() {
     let htmlTotalCarrito = "";
     let total = 0;
     for (let i = 0; i < arrayCarrito.length; i++) {
-        total += arrayCarrito[i].precio;
+        total += arrayCarrito[i].precio * arrayCarrito[i].cantidadCarrito;
     }
 
     htmlTotalCarrito += `<div class="centrar">
-                    <h3>Precio: $${total}</h3>
+                    <h3>Total: $${total}</h3>
                 </div>`;
     document.getElementById("total-carrito").innerHTML = htmlTotalCarrito;
 }
@@ -104,14 +115,43 @@ function buscarProductoPorId(id) {
     }
 }
 function agregarAlCarrito(id) {
-    arrayCarrito.push(buscarProductoPorId(id));
-    console.log(buscarProductoPorId(id));
-    
+    // Buscar si el producto ya existe en el carrito
+    let productoCarrito = arrayCarrito.find(p => p.id === id);
+
+    if (productoCarrito) {
+        // Si ya existe, aumentar la cantidad
+        productoCarrito.cantidadCarrito += 1;
+    } else {
+        // Si no existe, buscar el producto en la lista principal
+        let producto = buscarProductoPorId(id);
+        // Clonar el producto y agregar propiedad cantidadCarrito = 1
+        productoCarrito = {...producto, cantidadCarrito: 1};
+        arrayCarrito.push(productoCarrito);
+    }
+
     mostrarCarrito();
     mostrarPrecioTotal();
 }
 
-// Vareables globales Horibles
+function eliminarDelCarrito(id) {
+    // Buscar el producto en el carrito
+    for (let i = 0; i < arrayCarrito.length; i++) {
+        if (arrayCarrito[i].id === id) {
+            // Si la cantidad es mayor a 1, restar uno
+            if (arrayCarrito[i].cantidadCarrito > 1) {
+                arrayCarrito[i].cantidadCarrito--;
+            } else {
+                // Si solo hay uno, eliminar el producto del array
+                arrayCarrito.splice(i, 1);
+            }
+            break;
+        }
+    }
+    mostrarCarrito();
+    mostrarPrecioTotal();
+}
+
+
 let arrayProductos = [];
 let arrayCarrito = [];
 const url = 'http://localhost:3000/api';
