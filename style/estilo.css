@@ -199,4 +199,8 @@ David Lago */
     box-sizing: border-box;
 }
 
+/* #actualizarProducto-container,
+#getId-container{
+    visibility: hidden;
+} */
 

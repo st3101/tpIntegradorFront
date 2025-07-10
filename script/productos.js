@@ -13,32 +13,7 @@ async function obtenerDatosProductos() {
         console.error('Error al obtener los datos:', error);
     }
 }
-function reproducirSonido(btn) {
-    btn.addEventListener("click", function () {
-        let sonido = new Audio("./src/musica/Crash_Bandicoot_Woah.mp3");
-        sonido.play();
-    })
-};
 
-function reproducirMusica(btn, audio, img) {
-    btn.addEventListener("click", function () {
-        if (audio.paused) {
-            audio.play();
-            img.src = "./src/web/Crash_Bailando.gif";
-            btn.src = "./src/web/stop.png";
-        } else {
-            audio.pause();
-            audio.currentTime = 0; // reinicia el audio
-            btn.src = "./src/web/play.png";
-            img.src = "./src/web/Crash_logo.png"
-        }
-        // Cuando termina el audio
-        audio.addEventListener("ended", function () {
-            btn.src = "./src/web/play.png";
-            img.src = "./src/web/Crash_logo.png";
-        });
-    });
-}
 function mostrarProductos(array) {
     //Guardamos los productos guardados en payload
     console.log("Mostrando productos...");
@@ -159,14 +134,9 @@ const url = 'http://localhost:3000/api';
 async function init() {
     arrayProductos = await obtenerDatosProductos();
     let teclasGuardadas = document.getElementById("buscador");
-    let btnReproducirMusica = document.getElementById("btn-reproducir-musica");
-    let imgLogo = document.getElementById("img-logo");
-    let musica = new Audio("./src/musica/Crash_Bandicoot_1.mp3");
 
     mostrarProductos(arrayProductos);
     filtrarPorNombre(arrayProductos, teclasGuardadas);
-    reproducirMusica(btnReproducirMusica, musica, imgLogo);
-    reproducirSonido(imgLogo);
     mostrarCarrito();
 }
 
