@@ -1,164 +1,55 @@
+<!-- Santiago Leonardi -->
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP Integrador 334</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css" type="text/css">
-    <link rel="stylesheet" href="./css/styles.css">
+    <title>Wumpa Store</title>
+    <link rel="icon" href="./src/web/wumpa.webp" type="image/webp">
+    <link rel="stylesheet" href="./style/estandarizacion.css">
+    <link rel="stylesheet" href="./style/estilo.css">
+    <script src="./script/eliminar.js" defer></script>
 </head>
 
 <body>
-        <header class="paddingBottonOff">
-        <div class="centrar">
-            <div class="flex">
-                <div id="logo-container" class="paddingOff">
-                    <img id="img-logo" src="./src/memoricard.ico" alt="Logo">
-                </div>
-                <div>
-                    <h1>Classic Games</h1>
-                </div>
-            </div>
+    <header>
+        <div id="logo-container">
+            <img id="img-logo" src="./src/web/Crash_logo.png" alt=" Logo">
         </div>
-        <div class="centrar">
-            <nav>
+        <img id="btn-reproducir-musica" src="./src/web/play.png">
+
+    </header>
+    <main>
+        <section id="seccion-productos">
+            <h2 class="centrar">Playstation</h2>
+            <nav class="centrar">
                 <ul id="listado-nav">
-                    <li class="links-header"><a href="index.html"><span>GET</span></a></li>
-                    <li class="links-header"><a href="./get.html"><span>GET: ID</span></a></li>
-                    <li class="links-header"><a href="./post.html"><span>POST</span></a></li>
-                    <li class="links-header"><a href="./put.html"><span>PUT</span></a></li>
-                    <li class="links-header"><a href="./delete.html"><span>DELETE</span></a></li>
+                    <li class="links-header"><a href="index.html"><span>Productos</span></a></li>
+                    <li class="links-header"><a href="./get.html"><span>Buscar</span></a></li>
+                    <li class="links-header"><a href="./post.html"><span>Cargar</span></a></li>
+                    <li class="links-header"><a href="./put.html"><span>Actualizar</span></a></li>
+                    <li class="links-header"><a href="./delete.html"><span>Eliminar</span></a></li>
                 </ul>
             </nav>
-        </div>
-    </header>
-    <hr>
-    <h2 class="centrar">Eliminar Producto</h2>
-    <hr>
-    <main id="contenedor-get">
-        <div id="productos-container" class="crudFrom-container">
+        </section>
 
-            <form id="getProduct-form">
+
+
+            <form id="getProduct-form" class="buscarForm-container">
                 <label for="idProd">ID Producto</label>
                 <input type="number" name="idProd" id="idProd" required>
                 <input type="submit" value="Consultar producto">
             </form>
-        </div>
 
-        <div id="getId-container">
-            <ul id="getId-list">
-            </ul>
-        </div>
-    </main>
-
-    <div id="getId-container">
-        <ul id="getId-list"></ul>
-    </div>
-
-    <div id="actualizarProducto-container" class="crudFrom-container"></div>
-
-    <script>
-        let getProductForm = document.getElementById("getProduct-form");
-        let getId_lista = document.getElementById("getId-list");
-        let botonEliminarProducto = "";
-        const url = 'http://localhost:3000/api';
-
-        getProductForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            try {
-                //Creamos un objeto FormData para obtener los datos del formulario de event.target
-                let formData = new FormData(event.target);
-
-                //Tansformamos el objeto FormData a un objeto normal que ya posee la id del producto
-                let data = Object.fromEntries(formData.entries());
-
-                //Obtenemos el id del producto desde el objeto data y le sacamos los espacios en blanco al principio y al final del formulario (En nuestro caso no es necesario, pero es una buena práctica)
-                let idProd = data.idProd.trim();
-
-                //Validacion 1
-                if (!idProd) {
-                    // Si el id del formulario no existe, mandamos un error
-                    throw new Error(`Error en el envio de datos del formulario`);
-                }
-
-                //Traemos el producto desde la API usando el id del producto
-                let respuesta = await fetch(`${url}/productos/${idProd}`);
-
-                //Tranformamos el texto a formato JSON
-                let datos = await respuesta.json();
-
-                //Validacion 2
-                if (!respuesta.ok) {
-                    // Si la respuesta no es OK, mandamos un error
-                    throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
-                }
-
-                //Validacion 3
-                if (!datos.payload || datos.payload.length === 0) {
-                    // Si no hay productos en el payload, mandamos un error
-                    throw new Error(`No se encontraron productos con el ID: ${idProd}`);
-                }
-
-                //Del JSON obtenido, accedemos al primer elemento del array payload que es el producto que buscamos
-                let producto = datos.payload[0];
-
-                let htmlProducto = `
-                <li class="producto-item">
-                    <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
-                    <p>ID: ${producto.id} / Nombre: ${producto.nombre} / Categoria ${producto.categoria}  <br> <strong> Precio: ${producto.precio} </strong></p>
-                    <button id="btn-eliminar" class="btn-actualizar">Eliminar</button>
-                </li>`
-
-                getId_lista.innerHTML = htmlProducto;
-                botonEliminarProducto = document.getElementById("btn-eliminar");
-
-                botonEliminarProducto.addEventListener("click", async (event) => {
-                    eliminarProducto(event, producto);
-                });
-            } catch (error) {
-                console.log("err");
-                getId_lista.innerHTML = `<p class="error">${error.message}</p>`;
-            }
-        });
-
-        async function eliminarProducto(event, producto) {
-            event.preventDefault();
-
-            let confirmacion = confirm("¿Quieres eliminar el producto?");
-
-            if (!confirmacion) {
-                alert("Confrimacion Cancelada");
-                return
-            }
-            let id = producto.id;
-            try {
-                //Enviamos los datos del formulario a la API
-                let respuesta = await fetch(`${url}/productos/${id}`, {
-                    method:"DELETE"
-                });
-
-                let resultado = await respuesta.json();
-
-                if (respuesta.ok) {
-                    alert(resultado.message)
-                    getId_lista = "";
-                    return true;
-
-                }else{
-                    console.error("Error:", resultado.message);
-                    alert("Ocurrio un error al eliminar un producto");
-                    return false;
-                }
-                
-
-            } catch (error) {
-                console.error("Error al enviar los datos", error);
-                alert("Error al procesar la solicitud");
-                return false;
-            }
-        }
-
-    </script>
+            <div id="getId-container">
+                <ul id="getId-list">
+                </ul>
+            </div>
+        </main>
+        <footer class="centrar">
+            <img src="./src/web/Crash_Fake.webp" alt="">
+        </footer>
 </body>
+
+</html>
