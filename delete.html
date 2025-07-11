@@ -16,12 +16,23 @@
 </head>
 
 <body>
-    <header>
+    <header class="encabezado">
+        <!-- Izquierda: Logo Crash -->
         <div id="logo-container">
-            <img id="img-logo" src="./src/web/Crash_logo.png" alt=" Logo">
+            <img id="img-logo" src="./src/web/Crash_logo.png" alt="Logo">
         </div>
-        <img id="btn-reproducir-musica" src="./src/web/play.png">
-
+    
+        <div class="wumpa-contenedor-central">
+            <img src="./src/web/wumpa.webp" alt="Wumpa Icono" class="logo-wumpa">
+            <span class="titulo-wumpa">Wumpa Store</span>
+            <img id="btn-reproducir-musica" src="./src/web/play.png" alt="Reproducir">
+        </div>
+    
+        <!-- Derecha: buscador + carrito -->
+        <div class="derecha-header">
+            <input type="text" id="buscador" placeholder="Buscar...">
+            <img src="./src/web/carrito.png" id="img-carrito" alt="Carrito">
+        </div>
     </header>
     <main>
         <section id="seccion-productos">
@@ -45,7 +56,7 @@
                 <input type="submit" value="Consultar producto">
             </form>
 
-            <div id="getId-container">
+            <div id="getId-container" class="hidden">
                 <ul id="getId-list">
                 </ul>
             </div>

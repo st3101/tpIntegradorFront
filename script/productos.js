@@ -38,6 +38,23 @@ function mostrarProductos(array) {
 
 function mostrarCarrito() {
     let htmlCarrito = "";
+    
+    const contenedor = document.getElementById("contenedor-carrito");
+    const carritoVacio = document.getElementById("carrito-vacio");
+    const totalCarrito = document.getElementById("total-carrito");
+
+    if (arrayCarrito.length === 0) {
+        contenedor.innerHTML = "";
+        contenedor.classList.add("hidden");
+        carritoVacio.classList.remove("hidden");
+        totalCarrito.classList.add("hidden"); // Oculta el total
+        return;
+    } else {
+        contenedor.classList.remove("hidden");
+        carritoVacio.classList.add("hidden");
+        totalCarrito.classList.remove("hidden"); // Muestra el total
+    }
+
     for (let i = 0; i < arrayCarrito.length; i++) {
         let producto = arrayCarrito[i];
         htmlCarrito += `<div class="tarjeta-producto">
@@ -50,7 +67,7 @@ function mostrarCarrito() {
         </div>`;
     }
 
-    document.getElementById("contenedor-carrito").innerHTML = htmlCarrito;
+    contenedor.innerHTML = htmlCarrito;
 
     // Agregar eventos a botones eliminar
     let botonesEliminar = document.querySelectorAll(".btn-eliminar");

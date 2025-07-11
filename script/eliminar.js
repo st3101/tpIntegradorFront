@@ -66,7 +66,10 @@ getProductForm.addEventListener("submit", async (event) => {
             eliminarProducto(event, producto);
         });
     } catch (error) {
-        console.log("err");
+        console.error(error);
+        const contenedor = document.getElementById("getId-container");
+        contenedor.classList.remove("hidden");
+        contenedor.classList.add("mostrar-producto"); // o cualquier clase que uses para estilo
         getId_lista.innerHTML = `<p class="error">${error.message}</p>`;
     }
 });
@@ -93,6 +96,7 @@ async function eliminarProducto(event, producto) {
             alert(resultado.message)
             getId_lista.innerHTML = "";
             getId_lista.classList.add("hidden");
+            ocultarGetIdContainerVacio();
             return true;
 
         } else {
@@ -106,5 +110,15 @@ async function eliminarProducto(event, producto) {
         console.error("Error al enviar los datos", error);
         alert("Error al procesar la solicitud");
         return false;
+    }
+}
+
+function ocultarGetIdContainerVacio() {
+    const contenedor = document.getElementById("getId-container");
+    const lista = document.getElementById("getId-list");
+
+    if (contenedor && (!lista || lista.innerHTML.trim() === "")) {
+        contenedor.classList.add("hidden");
+        contenedor.innerHTML = "";
     }
 }

@@ -16,21 +16,27 @@
 </head>
 
 <body>
-    <header>
+    <header class="encabezado">
+        <!-- Izquierda: Logo Crash -->
         <div id="logo-container">
-            <img id="img-logo" src="./src/web/Crash_logo.png" alt=" Logo">
+            <img id="img-logo" src="./src/web/Crash_logo.png" alt="Logo">
         </div>
-            <img id="btn-reproducir-musica" src="./src/web/play.png">
-        <div class="flex">
-            <div>
-                <input id="buscador" placeholder="Buscar productos">
-            </div>
-            <div class="carrito">
-                <img id="imgCarrito" src="./src/web/carrito.png" alt="carrito">
-            </div>
+    
+        <div class="wumpa-contenedor-central">
+            <img src="./src/web/wumpa.webp" alt="Wumpa Icono" class="logo-wumpa">
+            <span class="titulo-wumpa">Wumpa Store</span>
+            <img id="btn-reproducir-musica" src="./src/web/play.png" alt="Reproducir">
+        </div>
+    
+        <!-- Derecha: buscador + carrito -->
+        <div class="derecha-header">
+            <input type="text" id="buscador" placeholder="Buscar...">
+            <img src="./src/web/carrito.png" id="img-carrito" alt="Carrito">
         </div>
     </header>
+
     <main>
+
         <section id="seccion-productos">
             <h2 class="centrar">Playstation</h2>
             <nav class="centrar">
@@ -47,7 +53,19 @@
         </section>
         <section id="seccion-carrito">
             <h2 class="centrar">Carrito</h2>
+
+            <!-- Carrito vacío -->
+            <div id="carrito-vacio" class="centrar hidden">
+                <div style="text-align: center;">
+                    <p>Tu carrito está vacío. ¡Agregá productos para comenzar!</p>
+                    <img src="./src/web/carrito_vacio.png" alt="Carrito vacío" width="100">
+                </div>
+            </div>
+
+            <!-- Carrito con productos -->
             <div id="contenedor-carrito" class="contenedor"></div>
+
+            <!-- Total -->
             <div id="total-carrito" class="centrar">Total: $0</div>
         </section>
     </main>

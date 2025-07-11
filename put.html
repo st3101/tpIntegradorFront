@@ -1,5 +1,5 @@
 <!-- Santiago Leonardi -->
- <!-- David Lago -->
+<!-- David Lago -->
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,17 +12,28 @@
     <link rel="stylesheet" href="./style/estilo.css">
     <script src="./script/actualizar.js" defer></script>
     <script src="./script/sonidos.js" defer></script>
-
 </head>
 
 <body>
-    <header>
+    <header class="encabezado">
+        <!-- Izquierda: Logo Crash -->
         <div id="logo-container">
-            <img id="img-logo" src="./src/web/Crash_logo.png" alt=" Logo">
+            <img id="img-logo" src="./src/web/Crash_logo.png" alt="Logo">
         </div>
-        <img id="btn-reproducir-musica" src="./src/web/play.png">
+    
+        <div class="wumpa-contenedor-central">
+            <img src="./src/web/wumpa.webp" alt="Wumpa Icono" class="logo-wumpa">
+            <span class="titulo-wumpa">Wumpa Store</span>
+            <img id="btn-reproducir-musica" src="./src/web/play.png" alt="Reproducir">
+        </div>
+    
+        <!-- Derecha: buscador + carrito -->
+        <div class="derecha-header">
+            <input type="text" id="buscador" placeholder="Buscar...">
+            <img src="./src/web/carrito.png" id="img-carrito" alt="Carrito">
         </div>
     </header>
+
     <main>
         <section id="seccion-productos">
             <h2 class="centrar">Playstation</h2>
@@ -35,26 +46,27 @@
                     <li class="links-header"><a href="./delete.html"><span>Eliminar</span></a></li>
                 </ul>
             </nav>
-    </main>
+        </section>
 
-    <main class="main">
-
-        <form id="getProduct-form" class="buscarForm-container">
+        <!-- Sección de formulario y resultados -->
+        <section class="main">
+            <form id="getProduct-form" class="buscarForm-container">
             <label for="idProd">ID Producto</label>
             <input type="number" name="idProd" id="idProd" required>
             <input type="submit" value="Consultar producto">
-        </form>
+            </form>
 
-        <div id="getId-container" class="hidden">
-            <div id="getId-list"></div>
-        </div>
+            <div id="getId-container" class="hidden">
+                <div id="getId-list"></div>
+            </div>
 
-        <div id="actualizarProducto-container" class="crudFrom-container hidden"></div>
-        
+            <div id="actualizarProductoForm-container" class="crudForm-container hidden"></div>
+        </section>
     </main>
+
     <footer class="centrar">
         <img src="./src/web/Crash_Fake.webp" alt="">
-</footer>
+    </footer>
 </body>
 
 </html>

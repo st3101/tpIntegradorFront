@@ -4,7 +4,7 @@ David Lago */
     const url = 'http://localhost:3000/api';
     let getProductForm = document.getElementById("getProduct-form");
     let getId_lista = document.getElementById("getId-list");
-    let getAltaProductoForm = document.getElementById("actualizarProducto-container");
+    let getAltaProductoForm = document.getElementById("actualizarProductoForm-container");
     let botonActualizar = "";
     let enviarProductoForm = "";
 
@@ -12,6 +12,12 @@ David Lago */
         event.preventDefault();
 
         try {
+            const contenedor = document.getElementById("getId-container");
+            const getId_lista = document.getElementById("getId-list");
+
+            contenedor.classList.remove('hidden');
+            contenedor.classList.add('mostrar-producto');
+
             //Creamos un objeto FormData para obtener los datos del formulario de event.target
             let formData = new FormData(event.target);
 
@@ -34,10 +40,13 @@ David Lago */
             let datos = await respuesta.json();
 
             //Validacion 2
-            if (!respuesta.ok) {
-                // Si la respuesta no es OK, mandamos un error
+        if (!respuesta.ok) {
+            if (respuesta.status === 404) {
+                throw new Error("No se encontró ningún producto con ese ID");
+            } else {
                 throw new Error(`Status: ${respuesta.status} StatusText: ${respuesta.statusText}`);
             }
+        }
 
             //Validacion 3
             if (!datos.payload || datos.payload.length === 0) {
@@ -57,7 +66,8 @@ David Lago */
                 <button id="btn-actualizar" class="btn-actualizar">Actualizar</button>
             </div>`
 
-            document.getElementById("getId-container").classList.remove("hidden");
+            contenedor.classList.remove("hidden");
+            contenedor.classList.add("mostrar-producto");
             getId_lista.innerHTML = htmlProducto;
             getProductForm.reset();
 
@@ -70,14 +80,21 @@ David Lago */
 
         } catch (error) {
             console.error(error);
-            //Mendaje de error en caso de que algo falle en el html
+            const contenedor = document.getElementById("getId-container");
+            const getId_lista = document.getElementById("getId-list");
+            contenedor.classList.remove("hidden");
+            contenedor.classList.add("mostrar-producto");
             getId_lista.innerHTML = `<p class="error">${error.message}</p>`;
         }
     });
 
     function formularioProducto(event, producto) {
         event.stopPropagation();
+
+        getAltaProductoForm = document.getElementById("actualizarProductoForm-container");
         getAltaProductoForm.classList.remove("hidden");
+        getAltaProductoForm.classList.add("visible");
+
         getAltaProductoForm.innerHTML = `
                 <h2>Producto</h2>
                 <form id="altaProducto-form" autocomplete="off">
@@ -107,7 +124,7 @@ David Lago */
                     <!-- Enviar -->
                     <input type="submit" value="Actualizar Producto">
                 </form>
-                `
+                `;
         enviarProductoForm = document.getElementById("altaProducto-form");
 
         enviarProductoForm.addEventListener("submit", (event) => {
@@ -155,8 +172,12 @@ David Lago */
                 alert(resultado.message);
 
                 //Vaciamos el formulario si todo funciono 
-                getId_lista.innerHTML = "";
-                getId_lista.classList.add("hidden");
+                document.getElementById("getId-container").classList.add("hidden");
+                document.getElementById("getId-container").classList.remove("mostrar-producto");
+                document.getElementById("getId-list").innerHTML = "";
+
+                getAltaProductoForm.classList.add("hidden");
+                getAltaProductoForm.classList.remove("visible");
                 getAltaProductoForm.innerHTML = "";
             }
         } catch (error) {
