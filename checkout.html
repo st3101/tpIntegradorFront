@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>¡Gracias por tu compra!</title>
+  <link rel="stylesheet" href="./style/estandarizacion.css" />
+  <link rel="stylesheet" href="./style/estilo.css" />
+</head>
+<body>
+  <header class="encabezado">
+    <div id="logo-container">
+      <img id="img-logo" src="./src/web/Crash_logo.png" alt="Logo" />
+    </div>
+    <div class="wumpa-contenedor-central">
+      <img src="./src/web/wumpa.webp" alt="Wumpa Icono" class="logo-wumpa" />
+      <span class="titulo-wumpa">Wumpa Store</span>
+    </div>
+    <div class="derecha-header"></div>
+  </header>
+
+  <main>
+    <h1 class="centrar" style="color: orange; font-size: 2rem; margin-top: 60px;">
+      ¡Gracias por tu compra!
+    </h1>
+    <p class="centrar" style="margin-top: 20px;">
+      Serás redirigido a la tienda en 3 segundos...
+    </p>
+  </main>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "welcome.html";
+    }, 3000);
+  </script>
+</body>
+</html>

@@ -85,6 +85,22 @@ David Lago */
     margin: 1% auto;
 }
 
+.botones-carrito {
+    text-align: center;
+    max-width: 300px;
+    margin: 15px auto 10px auto;
+}
+
+.botones-carrito h2 {
+    margin-bottom: 10px;
+    color: #FF7F00; 
+}
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+}
+
 #listado-nav {
     display: flex;
     justify-content: center;

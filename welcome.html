@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Wumpa Store - Inicio</title>
+  <link rel="stylesheet" href="./style/estandarizacion.css">
+  <link rel="stylesheet" href="./style/estilo.css">
+</head>
+<body>
+  <main class="centrar">
+    <h1>¡Bienvenido a <span class="titulo-wumpa">Wumpa Store</span>!</h1>
+    <div id="mensaje-bienvenida" class="titulo-wumpa"></div>
+    <form id="form-nombre">
+      <label for="nombre">Ingresá tu nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
+      <input type="submit" value="Entrar">
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("form-nombre");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      if (nombre) {
+        sessionStorage.setItem("nombreUsuario", nombre);
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

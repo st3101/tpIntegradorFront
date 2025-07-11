@@ -1,5 +1,18 @@
 /* Santiago Leonardi
 David Lago */
+
+function guardarCarritoEnLocalStorage() {
+    localStorage.setItem('carrito', JSON.stringify(arrayCarrito));
+}
+
+function cargarCarritoDeLocalStorage() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+        arrayCarrito = JSON.parse(carritoGuardado);
+    } else {
+        arrayCarrito = [];
+    }
+}
 async function obtenerDatosProductos() {
     try {
         console.log('Obteniendo datos de productos...');
@@ -123,6 +136,7 @@ function agregarAlCarrito(id) {
 
     mostrarCarrito();
     mostrarPrecioTotal();
+    guardarCarritoEnLocalStorage();
 }
 
 function eliminarDelCarrito(id) {
@@ -141,20 +155,54 @@ function eliminarDelCarrito(id) {
     }
     mostrarCarrito();
     mostrarPrecioTotal();
+    guardarCarritoEnLocalStorage();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnVaciarCarrito = document.getElementById('btn-vaciar-carrito');
+    if (btnVaciarCarrito) {
+        btnVaciarCarrito.addEventListener('click', () => {
+            if (confirm("¿Querés vaciar todo el carrito?")) {
+                arrayCarrito = [];
+                localStorage.removeItem('carrito');
+                mostrarCarrito();
+                mostrarPrecioTotal();
+            }
+        });
+    }
+});
 
 
 let arrayProductos = [];
 let arrayCarrito = [];
 const url = 'http://localhost:3000/api';
 
+
+const botonComprar = document.getElementById("comprar-carrito");
+
+botonComprar.addEventListener("click", () => {
+  if (arrayCarrito.length === 0) {
+    alert("El carrito está vacío. Agregá productos para comprar.");
+    return;
+  }
+  
+  // Limpiar carrito y localStorage
+  arrayCarrito = [];
+  localStorage.removeItem("carrito");
+  
+  // Mostrar alerta o redirigir a página de agradecimiento
+  window.location.href = "checkout.html";
+});
+
 async function init() {
     arrayProductos = await obtenerDatosProductos();
+    cargarCarritoDeLocalStorage();
     let teclasGuardadas = document.getElementById("buscador");
 
     mostrarProductos(arrayProductos);
     filtrarPorNombre(arrayProductos, teclasGuardadas);
     mostrarCarrito();
+    mostrarPrecioTotal();
 }
 
 init();  
